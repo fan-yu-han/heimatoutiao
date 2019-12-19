@@ -56,10 +56,23 @@ export default {
   },
   methods: {
     submitLogin () {
-      this.$refs.myForm.validate(function (isOK) {
+      this.$refs.myForm.validate((isOK) => {
         if (isOK) {
-          // 说明通过
-          console.log('校验通过')
+          // 说明通过 应该调用登录接口
+          // axios body参数 get参数地址参数 路由参数 又叫查询参数
+          // body 参数 在axios data里
+          // get 参数 axios params
+          this.$axios({
+            url: '/authorizations', // 请求地址 axios 没有指定类型 默认get类型
+            method: 'post',
+            data: this.loginForm// body 参数
+          }).then(result => {
+            // .then只接受正确结果
+            // 登录成功返回时携带令牌 需要把令牌保存在前端缓存中
+            window.localStorage.setItem('user-token', result.data.data.token)
+          }).catch(() => {
+
+          })
         }
       })
     }
