@@ -70,8 +70,12 @@ export default {
             // .then只接受正确结果
             // 登录成功返回时携带令牌 需要把令牌保存在前端缓存中
             window.localStorage.setItem('user-token', result.data.data.token)
+            this.$router.push('/home') // 跳转到home
           }).catch(() => {
-
+            this.$message({
+              type: 'waring',
+              message: '手机号或者验证码错误'
+            })
           })
         }
       })
