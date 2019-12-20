@@ -10,13 +10,22 @@
 
           <el-row type='flex' justify='end' align="middle">
                <img src="../../assets/img/avatar.jpg" alt="">
-            <el-dropdown>
-                <span>逆水</span>
-                <el-dropdown-menu slot="dropdown"></el-dropdown-menu>
-                <el-menu-item>个人信息</el-menu-item>
-                <el-menu-item>git地址</el-menu-item>
-                <el-menu-item>退出</el-menu-item>
-            </el-dropdown>
+                <el-dropdown>
+                    <span>
+                        逆水<i class="el-icon-arrow-down el-icon--right"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-menu-item>个人信息</el-menu-item>
+                        <el-menu-item>git地址</el-menu-item>
+                        <el-menu-item>退出</el-menu-item>
+                        <el-dropdown-item>螺蛳粉</el-dropdown-item>
+                        <el-dropdown-item>黄金糕</el-dropdown-item>
+                        <el-dropdown-item>狮子头</el-dropdown-item>
+                        <el-dropdown-item>螺蛳粉</el-dropdown-item>
+                        <el-dropdown-item disabled>双皮奶</el-dropdown-item>
+                        <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
           </el-row>
 
       </el-col>

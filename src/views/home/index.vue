@@ -19,14 +19,14 @@
 </template>
 
 <script>
-import layoutHeader from '../../components/home/layout-header'
-import layoutAside from '../../components/home/layout-aside'
+// import layoutHeader from '../../components/home/layout-header'
+// import layoutAside from '../../components/home/layout-aside' 可以删除了
 
 export default {
   // 引用然后注册
   components: {
-    'layout-aside': layoutAside,
-    'layout-header': layoutHeader
+    // 'layout-aside': layoutAside,
+    // 'layout-header': layoutHeader
   }
 }
 </script>
