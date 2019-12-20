@@ -2,8 +2,8 @@
 <!-- 一个大容器 -->
   <el-container>
     <!-- 分左右布局 -->
-    <el-aside>
-      左侧内容
+    <el-aside  style="height: 100vh; background-color: #353b4e;width:230px">
+     <layout-aside ></layout-aside>
     </el-aside>
     <!-- 右侧内容 -->
     <el-container>
@@ -16,8 +16,12 @@
 </template>
 
 <script>
+import layoutAside from '../../components/home/layout-aside'
 export default {
-
+  // 引用然后注册
+  components: {
+    'layout-aside': layoutAside
+  }
 }
 </script>
 
