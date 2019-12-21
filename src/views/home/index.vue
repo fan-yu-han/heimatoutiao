@@ -12,7 +12,10 @@
         <!-- 头部组件 -->
         <layout-header></layout-header>
       </el-header>
-      <el-main>主要区域</el-main>
+      <el-main>
+        <!-- 二级路由 -->
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 
