@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import './permisson'
 import router from './router'
 import ElementUI from 'element-ui'
 import Component from './components'
