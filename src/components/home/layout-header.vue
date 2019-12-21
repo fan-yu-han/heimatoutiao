@@ -10,17 +10,16 @@
       <el-col :span="12" class="right">
         <el-row type="flex" justify="end" align="middle">
           <img :src="userInfo.photo?userInfo.photo:defaultImg" alt />
-          <el-dropdown>
+          <el-dropdown @command="clickMenu">
             <span class="el-dropdown-link">
                {{userInfo.name}}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>黄金糕</el-dropdown-item>
-              <el-dropdown-item>狮子头</el-dropdown-item>
-              <el-dropdown-item>螺蛳粉</el-dropdown-item>
-              <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-              <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+              <el-dropdown-item  command='info'>黄金糕</el-dropdown-item>
+              <el-dropdown-item command='git'>狮子头</el-dropdown-item>
+              <el-dropdown-item command='tuichu'>退出</el-dropdown-item>
+
             </el-dropdown-menu>
           </el-dropdown>
         </el-row>
@@ -48,6 +47,18 @@ export default {
     }).then(result => {
       this.userInfo = result.data.data
     })
+  },
+  methods: {
+    clickMenu (command) {
+      if (command === 'info') {
+
+      } else if (command === 'git') {
+        window.location.href = 'https://github.com/fan-yu-han/heimatoutiao'// 跳转git地址
+      } else { // 退出
+        window.localStorage.removeItem('user-token')// 删除令牌
+        this.$router.push('/login')// 回到登录页面
+      }
+    }
   }
 }
 </script>
