@@ -69,7 +69,7 @@ export default {
           }).then(result => {
             // .then只接受正确结果
             // 登录成功返回时携带令牌 需要把令牌保存在前端缓存中
-            window.localStorage.setItem('user-token', result.data.data.token)
+            window.localStorage.setItem('user-token', result.data.token)
             this.$router.push('/home') // 跳转到home
           }).catch(() => {
             this.$message({

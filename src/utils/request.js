@@ -11,4 +11,12 @@ axios.interceptors.request.use(function (config) {
 }, function () {
 // 请求失败
 })
+
+// 相应拦截器
+axios.interceptors.response.use(function (response) {
+// 成功是执行该函数 状态吗 200/201/204
+  return response.data ? response.data : {}
+}, function () {
+// 失败是执行该参数
+})
 export default axios
