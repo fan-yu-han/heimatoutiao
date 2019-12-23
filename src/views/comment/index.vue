@@ -1,5 +1,5 @@
 <template>
-    <el-card>
+    <el-card  v-loading='loading'>
         <bread-crumb slot="header">
         <!-- 插槽内容 -->
             <template slot="title">
@@ -39,6 +39,7 @@ export default {
   data () {
     return {
       list: [],
+      loading: false,
       page: {
         total: 0,
         pageSize: 10, // 默认每页条码为10
@@ -53,12 +54,14 @@ export default {
       this.getComment()
     },
     getComment () {
+      this.loading = true
       this.$axios({
         url: '/articles',
         params: { response_type: 'comment', page: this.page.currentPage, per_page: this.page.pageSize }
       }).then(result => {
         this.list = result.data.results
         this.page.total = result.data.total_count// 总条数
+        this.loading = false
       })
     },
     formatterBoolean (row, column, cellValue, index) {
