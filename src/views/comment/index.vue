@@ -21,6 +21,15 @@
                 </template>
             </el-table-column>
         </el-table>
+             <el-row type='flex' justify="center" align="middle" style="height:80px">
+                  <!-- 分页组件 total 总页码  每页多少条-->
+                <el-pagination background layout="prev, pager, next"
+                :current-page="page.currentPage"
+                :page-size="page.pageSize"
+                :total="page.total"
+                @current-change="changePage"
+                ></el-pagination>
+              </el-row>
     </el-card>
 
 </template>
@@ -29,16 +38,27 @@
 export default {
   data () {
     return {
-      list: []
+      list: [],
+      page: {
+        total: 0,
+        pageSize: 10, // 默认每页条码为10
+        currentPage: 1// 默认页面是1
+      }
     }
   },
   methods: {
+    // 野马改变事件
+    changePage (newPage) {
+      this.page.currentPage = newPage
+      this.getComment()
+    },
     getComment () {
       this.$axios({
         url: '/articles',
-        params: { response_type: 'comment' }
+        params: { response_type: 'comment', page: this.page.currentPage, per_page: this.page.pageSize }
       }).then(result => {
         this.list = result.data.results
+        this.page.total = result.data.total_count// 总条数
       })
     },
     formatterBoolean (row, column, cellValue, index) {
