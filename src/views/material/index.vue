@@ -21,8 +21,8 @@
               <el-card class="img-card" v-for="item in list" :key='item.id'>
                   <img :src="item.url" alt="">
                   <el-row class="operate" type="flex" align="middle" justify='space-around'>
-                      <i  class="el-icon-star-on"></i>
-                      <i class="el-icon-delete-solid"></i>
+                      <i @click="collectOrCancel(item) " :style="{color:item.is_collected ?'red':'#000'}" class="el-icon-star-on"></i>
+                      <i @click="delMaterial(item.id)" class="el-icon-delete-solid"></i>
                   </el-row>
               </el-card>
           </div>
@@ -68,10 +68,34 @@ export default {
     }
   },
   methods: {
+    // 删除用户图片
+    delMaterial (id) {
+      this.$confirm('你确定要删除此图片么么？').then(() => {
+        this.$axios({
+          method: 'delete',
+          url: `/user/images/${id}`
+        }).then(() => {
+          this.geiMaterial()
+        })
+      })
+    },
+    // 取消收藏
+    collectOrCancel (item) {
+      // item.iscollected ture =》收藏
+      this.$axios({
+        method: 'put',
+        url: `/user/images/${item.id}`,
+        data: {
+          collect: !item.is_collected // 取反 因为收藏 》 取消收藏
+        }
+      }).then(result => {
+        this.geiMaterial()// 重新拉取数据
+      })
+    },
     uploadImg (params) {
       this.loading = true// 先单个层
       let data = new FormData()
-      data.append('image', params.file)
+      data.append('image', params.file)// 文件加入到文件参数中
       this.$axios({
         method: 'post',
         url: '/user/images',
@@ -133,6 +157,9 @@ export default {
             font-size: 20px;
             height: 36px;
             background-color: #f4f5f6 ;
+            i {
+              cursor:pointer //鼠标 变手
+            }
         }
     }
 }
