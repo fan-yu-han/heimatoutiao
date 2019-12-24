@@ -1,10 +1,17 @@
 <template>
-  <el-card>
+  <el-card v-loading='loading' >
       <bread-crumb slot="header">
         <template slot="title">
             素材管理
         </template>
       </bread-crumb>
+      <!-- 上传 -->
+      <el-row type="flex" justify="end">
+        <el-upload action="" :http-request="uploadImg" :show-file-list="false">
+          <el-button type="primary">上传图片</el-button>
+        </el-upload>
+      </el-row>
+
       <!-- 标签页 -->
        <el-tabs v-model="activeName" @tab-click="changTab">
            <el-tab-pane label="全部图片" name="all">
@@ -14,7 +21,7 @@
               <el-card class="img-card" v-for="item in list" :key='item.id'>
                   <img :src="item.url" alt="">
                   <el-row class="operate" type="flex" align="middle" justify='space-around'>
-                      <i class="el-icon-star-on"></i>
+                      <i  class="el-icon-star-on"></i>
                       <i class="el-icon-delete-solid"></i>
                   </el-row>
               </el-card>
@@ -50,6 +57,7 @@
 export default {
   data () {
     return {
+      loading: false,
       activeName: 'all', // 当前选中的标签
       list: [], // 搜索素材数据
       page: {
@@ -60,6 +68,19 @@ export default {
     }
   },
   methods: {
+    uploadImg (params) {
+      this.loading = true// 先单个层
+      let data = new FormData()
+      data.append('image', params.file)
+      this.$axios({
+        method: 'post',
+        url: '/user/images',
+        data
+      }).then(result => {
+        this.loading = false
+        this.geiMaterial()
+      })
+    },
     //   改变页马方法
     changePage (newPage) {
       this.page.currentPage = newPage

@@ -17,14 +17,14 @@ axios.interceptors.request.use(function (config) {
 })
 
 axios.defaults.transformResponse = [function (data) {
-  debugger
+  // debugger
   return JSONBig.parse(data)
 }]
 
 // 相应拦截器
 axios.interceptors.response.use(function (response) {
 // 成功是执行该函数 状态吗 200/201/204
-  return response.data ? response.data : {}
+  return response.data ? response.data : { response }
 }, function (error) {
 // 失败是执行该参数
   let status = error.response.status
