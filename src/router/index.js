@@ -15,14 +15,17 @@ const routes = [
     name: 'home',
     component: Home,
     children: [{
-      path: '',
+      path: '', // 二级路由地址什么都不写 ，代表耳机路由默认组件
       component: Home2
     }, {
-      path: '/home/comment',
+      path: '/home/comment', // 完整 相对
       component: () => import('../views/comment')
     }, {
       path: '/home/material',
       component: () => import('../views/material')
+    }, {
+      path: 'articles', // 文章列表
+      component: () => import('../views/articles')
     }]
   }, {
     path: '/login',
