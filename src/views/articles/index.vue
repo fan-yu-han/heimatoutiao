@@ -8,7 +8,15 @@
       <el-form style="padding-left:50px">
           <el-form-item label="文章状态:">
               <!-- 放置一个单选组  文章状态，0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除，不传为全部-->
-              <el-radio-group v-model="searchForm.status">
+              <!-- <el-radio-group v-model="searchForm.status" @change="changeCondition">
+
+                <el-radio :label="5">全部</el-radio>
+                <el-radio :label="0">草稿</el-radio>
+                <el-radio :label="1">待审核</el-radio>
+                <el-radio :label="2">审核通过</el-radio>
+                <el-radio  :label="3">审核失败</el-radio>
+               </el-radio-group> -->
+              <el-radio-group v-model="searchForm.status" >
               <!-- label  -->
                 <el-radio :label="5">全部</el-radio>
                 <el-radio :label="0">草稿</el-radio>
@@ -19,14 +27,19 @@
                {{searchForm}}
           </el-form-item>
           <el-form-item label="频道列表:">
-
+            <!-- 第一种 监听组件的方式收缩 -->
+              <!-- <el-select @change="changeCondition"  placeholder="请选择频道" v-model="searchForm.channel_id ">
+                  <el-option v-for='item in channels' :key='item.id' :label="item.name" :value="item.id" ></el-option>
+              </el-select> -->
               <el-select placeholder="请选择频道" v-model="searchForm.channel_id ">
                   <el-option v-for='item in channels' :key='item.id' :label="item.name" :value="item.id" ></el-option>
               </el-select>
           </el-form-item>
           <el-form-item label="时间选择:">
               <!-- 日期选择器 -->
-              <el-date-picker v-model="searchForm.dateRange" type="daterange"></el-date-picker>
+              <!-- 第一种 监听组件的方式收缩 -->
+              <!-- <el-date-picker  @change="changeCondition" value-format="yyyy-MM-dd" v-model="searchForm.dateRange" type="daterange"></el-date-picker> -->
+              <el-date-picker   value-format="yyyy-MM-dd" v-model="searchForm.dateRange" type="daterange"></el-date-picker>
           </el-form-item>
       </el-form>
       <el-row class="total" type="flex" align="middle ">
@@ -65,6 +78,16 @@ export default {
       defaultImg: require('../../assets/img/default.jpg')// 默认图片
     }
   },
+  watch: {
+    searchForm: {
+      handler: function () {
+        // 此时数据已经是最新的了
+        // this指向组件实例
+        this.changeCondition()// 直接调用条件改变的方法
+      },
+      deep: true
+    }
+  },
   filters: {
     filtersStatus (value) {
       switch (value) {
@@ -97,6 +120,16 @@ export default {
   },
 
   methods: {
+    // 改变时间
+    changeCondition () {
+      let params = {
+        status: this.searchForm.status === 5 ? null : this.searchForm.status,
+        channel_id: this.searchForm.channel_id,
+        begin_pubdate: this.searchForm.dateRange.length ? this.searchForm.dateRange[0] : null,
+        end_pubdate: this.searchForm.dateRange.length > 1 ? this.searchForm.dateRange[1] : null
+      }
+      this.getArticles(params)
+    },
     // 获取所有的pindao
     getChannels () {
       this.$axios({
@@ -105,10 +138,11 @@ export default {
         this.channels = result.data.channels
       })
     },
-    // 获取文章
-    getArticles () {
+    // 获取文章 数据
+    getArticles (params) {
       this.$axios({
-        url: '/articles'
+        url: '/articles',
+        params // es6 简写
       }).then(result => {
         this.list = result.data.results// 获取文章裂变素具
       })
@@ -116,7 +150,7 @@ export default {
   },
   created () {
     this.getChannels()
-    this.getArticles()
+    this.getArticles()// 第一次没传参
   }
 }
 
