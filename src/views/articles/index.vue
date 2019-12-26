@@ -61,6 +61,12 @@
             <span><i class="el-icon-delete"></i>删除</span>
         </div>
       </div>
+      <el-row type="flex" justify='center' align="middle" style="height:60px">
+        <el-pagination background layout='prev,pager,next'
+         :total="page.total" :current-page="page.currentPage"
+         :page-size="page.pageSize" @current-page="changePage">
+        </el-pagination>
+      </el-row>
   </el-card>
 </template>
 
@@ -75,7 +81,13 @@ export default {
       },
       channels: [], // 接收频道数据
       list: [],
-      defaultImg: require('../../assets/img/default.jpg')// 默认图片
+      defaultImg: require('../../assets/img/default.jpg'), // 默认图片
+      page: {
+        currentPage: 1,
+        pageSize: 10, // 黑发头条后端限制 最低10条=》文章列表
+        total: 0
+
+      }
     }
   },
   watch: {
@@ -120,9 +132,20 @@ export default {
   },
 
   methods: {
+    // 改变页码方法
+    changePage  (newPage) {
+      this.page.currentPage = newPage// 最新页码
+      this.getConditionArticle()// 调用后去文章数据
+    },
     // 改变时间
     changeCondition () {
+      this.page.currentPage = 1// 强制页面充值为一
+      this.getConditionArticle()// 调用后去文章数据
+    },
+    getConditionArticle () {
       let params = {
+        page: this.page.currentPage, // 当前页面
+        per_page: this.page.pageSize, // 每页数量
         status: this.searchForm.status === 5 ? null : this.searchForm.status,
         channel_id: this.searchForm.channel_id,
         begin_pubdate: this.searchForm.dateRange.length ? this.searchForm.dateRange[0] : null,
@@ -145,12 +168,13 @@ export default {
         params // es6 简写
       }).then(result => {
         this.list = result.data.results// 获取文章裂变素具
+        this.page.total = result.data.total_count // 总数
       })
     }
   },
   created () {
     this.getChannels()
-    this.getArticles()// 第一次没传参
+    this.getArticles({ page: 1, per_page: 10 })// 第一次没传参
   }
 }
 
