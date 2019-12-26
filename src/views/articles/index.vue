@@ -32,14 +32,14 @@
       <el-row class="total" type="flex" align="middle ">
         <span>共找到10000条符合条件的内容</span>
       </el-row>
-      <div class="article-item" v-for="item in 100" :key="item">
+      <div class="article-item" v-for="item in list" :key="item.id.toString()">
         <!-- 左侧  -->
         <div class="left">
-           <img src="../../assets/img/back.png" alt="">
+           <img :src="item.cover.images.length? item.cover.images[0] :defaultImg" alt="">
            <div class="info">
-              <span>我欲封天</span>
-              <el-tag class="tag">标签</el-tag>
-              <span>2019年12月25日10:26:13</span>
+              <span>{{item.title}}</span>
+              <el-tag :type="item.status | filterType" class="tag">{{item.status | filtersStatus}}</el-tag>
+              <span class="data">{{item.pubdate }}</span>
           </div>
         </div>
         <!-- 右侧 -->
@@ -60,9 +60,42 @@ export default {
         channel_id: null, //
         dateRange: [ ] // 日期范围
       },
-      channels: []// 接收频道数据
+      channels: [], // 接收频道数据
+      list: [],
+      defaultImg: require('../../assets/img/default.jpg')// 默认图片
     }
   },
+  filters: {
+    filtersStatus (value) {
+      switch (value) {
+        case 0:
+          return '草稿'
+        case 1:
+          return '待审核'
+        case 2:
+          return '已发表'
+        case 3:
+          return '审核失败 '
+        default:
+          break
+      }
+    },
+    filterType (value) {
+      switch (value) {
+        case 0:
+          return 'warning'
+        case 1:
+          return 'info'
+        case 2:
+          return ''
+        case 3:
+          return 'danger'
+        default:
+          break
+      }
+    }
+  },
+
   methods: {
     // 获取所有的pindao
     getChannels () {
@@ -71,12 +104,22 @@ export default {
       }).then(result => {
         this.channels = result.data.channels
       })
+    },
+    // 获取文章
+    getArticles () {
+      this.$axios({
+        url: '/articles'
+      }).then(result => {
+        this.list = result.data.results// 获取文章裂变素具
+      })
     }
   },
   created () {
     this.getChannels()
+    this.getArticles()
   }
 }
+
 </script>
 
 <style lang='less' scoped>
