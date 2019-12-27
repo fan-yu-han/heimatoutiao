@@ -94,20 +94,42 @@ export default {
     pulishiArticle (draft) {
       this.$refs.publishForm.validate(isOk => {
         if (isOk) {
-        //   调用发布接口
+          // 修改还是发布文章
+          let{ articleId } = this.$route.params // 获取动态路由参数
           this.$axios({
-            url: '/articles',
-            method: 'post',
+            url: articleId ? `/articles/${articleId}` : '/articles',
+            method: articleId ? 'put' : 'post',
             params: { draft }, // 查询参数
-            data: this.formData// 请求体参数
-          }).then(() => {
+            data: this.formData // 请求体参数
+          }).then(result => {
             this.$message({
               type: 'success',
               message: '保存成功'
             })
             // 跳转到文章列表页
-            this.$router.push('/home/art')
+            this.$router.push('/home/articles')
           })
+
+          // if (articleId) {
+          //   // 修改文章接口
+
+          // } else {
+          //   // 调用发布接口
+          //   this.$axios({
+          //     url: '/articles',
+          //     method: 'post',
+          //     params: { draft }, // 查询参数
+          //     data: this.formData// 请求体参数
+          //   }).then(() => {
+          //     this.$message({
+          //       type: 'success',
+          //       message: '保存成功'
+          //     })
+          //     // 跳转到文章列表页
+          //     this.$router.push('/home/articles')
+          //   })
+          // }
+          //   调用发布接口
         }
       })
     },
@@ -121,8 +143,8 @@ export default {
   },
   created () {
     this.getChannels()
-    let{ articleId } = this.$route.params
-    articleId && this.getArticleById(articleId)
+    let{ articleId } = this.$route.params// 获取动态路由参数
+    articleId && this.getArticleById(articleId) // 如果文章id存在 直接查询文章的数据
   }
 }
 </script>
