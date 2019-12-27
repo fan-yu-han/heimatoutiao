@@ -64,7 +64,7 @@
       <el-row type="flex" justify='center' align="middle" style="height:60px">
         <el-pagination background layout='prev,pager,next'
          :total="page.total" :current-page="page.currentPage"
-         :page-size="page.pageSize" @current-page="changePage">
+         :page-size="page.pageSize" @current-change="changePage">
         </el-pagination>
       </el-row>
   </el-card>
@@ -137,7 +137,7 @@ export default {
       this.$confirm('是否要删除该文章').then(() => {
         // 调用删除的的接口
         this.$axios({
-          methods: 'delete',
+          method: 'delete',
           url: `/articles/${id.toString()}`
         }).then(result => {
           this.$message({
@@ -151,6 +151,7 @@ export default {
     },
     // 改变页码方法
     changePage  (newPage) {
+      // console.log(newPage)
       this.page.currentPage = newPage// 最新页码
       this.getConditionArticle()// 调用后去文章数据
     },
