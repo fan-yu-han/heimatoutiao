@@ -62,6 +62,25 @@ export default {
       }
     }
   },
+  watch: {
+    // 处理像个地址对应
+    $route: function (to, from) {
+      if (to.params.articleId) {
+        // 修改
+      } else {
+        this.formData = {
+          // 是发布
+          title: '', // 文章标题
+          content: '', // content 文章内容
+          cover: {
+            type: 0, // 封面类型 -1:自动，0-无图，1-1张，3-3张
+            images: [] // 放置封面地址的数组
+          },
+          channel_id: null // 频道id
+        }
+      }
+    }
+  },
   methods: {
     // 获取所有频道
     getChannels () {
@@ -87,14 +106,23 @@ export default {
               message: '保存成功'
             })
             // 跳转到文章列表页
-            this.$router.push('/')
+            this.$router.push('/home/art')
           })
         }
+      })
+    },
+    getArticleById (articleId) {
+      this.$axios({
+        url: `/articles/${articleId}`
+      }).then(result => {
+        this.formData = result.data // 将数据赋值data
       })
     }
   },
   created () {
     this.getChannels()
+    let{ articleId } = this.$route.params
+    articleId && this.getArticleById(articleId)
   }
 }
 </script>

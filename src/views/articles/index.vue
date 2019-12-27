@@ -57,7 +57,7 @@
         </div>
         <!-- 右侧 -->
         <div class="right">
-            <span> <i class="el-icon-edit"> </i>修改</span>
+            <span @click="toModify(item.id)" > <i class="el-icon-edit"> </i>修改</span>
             <span @click="delMaterial(item.id)"><i class="el-icon-delete"></i>删除</span>
         </div>
       </div>
@@ -132,6 +132,10 @@ export default {
   },
 
   methods: {
+    // 去修改页面 ==就是发布页面
+    toModify (id) {
+      this.$router.push(`/home/publish/${id.toString()}`)
+    },
     // 删除文章方法
     delMaterial (id) {
       this.$confirm('是否要删除该文章').then(() => {
