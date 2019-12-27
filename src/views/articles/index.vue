@@ -24,7 +24,7 @@
                 <el-radio :label="2">审核通过</el-radio>
                 <el-radio  :label="3">审核失败</el-radio>
                </el-radio-group>
-               {{searchForm}}
+               <!-- {{searchForm}} -->
           </el-form-item>
           <el-form-item label="频道列表:">
             <!-- 第一种 监听组件的方式收缩 -->
@@ -43,7 +43,7 @@
           </el-form-item>
       </el-form>
       <el-row class="total" type="flex" align="middle ">
-        <span>共找到10000条符合条件的内容</span>
+        <span>共找到{{page.total}}条符合条件的内容</span>
       </el-row>
       <div class="article-item" v-for="item in list" :key="item.id.toString()">
         <!-- 左侧  -->
@@ -58,7 +58,7 @@
         <!-- 右侧 -->
         <div class="right">
             <span> <i class="el-icon-edit"> </i>修改</span>
-            <span><i class="el-icon-delete"></i>删除</span>
+            <span @click="delMaterial(item.id)"><i class="el-icon-delete"></i>删除</span>
         </div>
       </div>
       <el-row type="flex" justify='center' align="middle" style="height:60px">
@@ -132,6 +132,23 @@ export default {
   },
 
   methods: {
+    // 删除文章方法
+    delMaterial (id) {
+      this.$confirm('是否要删除该文章').then(() => {
+        // 调用删除的的接口
+        this.$axios({
+          methods: 'delete',
+          url: `/articles/${id.toString()}`
+        }).then(result => {
+          this.$message({
+            type: 'succeess',
+            message: '删除成功'
+          })
+          // 重新拉去数据
+          this.getConditionArticle()
+        })
+      })
+    },
     // 改变页码方法
     changePage  (newPage) {
       this.page.currentPage = newPage// 最新页码
