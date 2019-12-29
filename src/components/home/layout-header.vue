@@ -16,8 +16,8 @@
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item  command='info'>黄金糕</el-dropdown-item>
-              <el-dropdown-item command='git'>狮子头</el-dropdown-item>
+              <el-dropdown-item  command='info'>个人信息</el-dropdown-item>
+              <el-dropdown-item command='git'>git 地址</el-dropdown-item>
               <el-dropdown-item command='tuichu'>退出</el-dropdown-item>
 
             </el-dropdown-menu>
@@ -47,7 +47,7 @@ export default {
   methods: {
     clickMenu (command) {
       if (command === 'info') {
-
+        this.$router.push('/home/account')// 回到账户信息
       } else if (command === 'git') {
         window.location.href = 'https://github.com/fan-yu-han/heimatoutiao'// 跳转git地址
       } else { // 退出

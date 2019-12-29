@@ -21,9 +21,9 @@
                 <el-menu-item index='/home/picture'>图文数据</el-menu-item>
                 <el-menu-item index='/home/fensi'>粉丝概况</el-menu-item>
                 <el-menu-item index='/home/fensiImg'>粉丝画像</el-menu-item>
-                <el-menu-item index='/home/fanslist '>粉丝列表 </el-menu-item>
+                <el-menu-item index='/home/fanslist'>粉丝列表 </el-menu-item>
             </el-submenu>
-            <el-menu-item>账户信息</el-menu-item>
+            <el-menu-item index='/home/account'>账户信息</el-menu-item>
         </el-menu>
     </div>
 </template>
