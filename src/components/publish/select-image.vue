@@ -1,7 +1,7 @@
 <template>
    <el-tabs v-model="activeName">
     <el-tab-pane label="素材库" name="material">
-      <div class="select-imgae-list">
+      <div class="select-image-list">
         <!-- 循环生成多个el-card -->
         <el-card v-for="item in list" :key="item.id" class='img-card'>
           <!-- 给图片注册点击事件 -->
@@ -80,7 +80,7 @@ export default {
 </script>
 
 <style lang='less' >
-.select-imgae-list {
+.select-image-list {
   display: flex;
   flex-wrap: wrap;//自动换行
   justify-content: space-around;
@@ -88,7 +88,7 @@ export default {
     width: 120px;
     height: 150px;
     margin: 20px 0;
-    .img {
+    img {
       width: 100%;
       height: 100%;
     }
