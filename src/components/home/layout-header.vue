@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
@@ -37,14 +38,21 @@ export default {
     }
   },
   created () {
-    this.$axios({
-      url: '/user/profile'
-
-    }).then(result => {
-      this.userInfo = result.data
+    this.getUserInfo()
+    // 开启监听
+    eventBus.$on('updateUserInfo', () => {
+      this.getUserInfo()
     })
   },
   methods: {
+    getUserInfo () {
+      this.$axios({
+        url: '/user/profile'
+
+      }).then(result => {
+        this.userInfo = result.data
+      })
+    },
     clickMenu (command) {
       if (command === 'info') {
         this.$router.push('/home/account')// 回到账户信息

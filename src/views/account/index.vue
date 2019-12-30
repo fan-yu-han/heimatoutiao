@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
@@ -63,7 +64,9 @@ export default {
         data: data
       }).then(result => {
         this.loading = false // 关闭弹层
-        this.formData.photo = result.data.photo
+        this.formData.photo = result.data.photo// 给当前的头像赋值
+        // 认为保存成功=>通知 header组件 更性信息
+        eventBus.$emit('updateUserInfo')
       })
     },
     //   获取用户个人信息
@@ -85,8 +88,10 @@ export default {
         }).then(result => {
           this.$message({
             type: 'success',
-            message: '保存用户信息  '
+            message: '保存用户信息成功'
           })
+          // 认为保存成功=>通知 header组件 更性信息
+          eventBus.$emit('updateUserInfo')
         })
       })
     }
