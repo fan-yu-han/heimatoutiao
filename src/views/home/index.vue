@@ -2,8 +2,8 @@
 <!-- 一个大容器 -->
   <el-container>
     <!-- 分左右布局 -->
-    <el-aside  style="min-height: 100vh; background-color: #353b4e;width:230px">
-     <layout-aside ></layout-aside>
+    <el-aside :style="{width:collapse?'60px':'230px'}" style="transition:all 0.5s; min-height: 100vh; background-color: #353b4e;">
+     <layout-aside :collapse='collapse' ></layout-aside>
     </el-aside>
     <!-- 右侧内容 -->
     <el-container>
@@ -22,15 +22,20 @@
 </template>
 
 <script>
-// import layoutHeader from '../../components/home/layout-header'
-// import layoutAside from '../../components/home/layout-aside' 可以删除了
-
+import eventBus from '../../utils/eventBus'
 export default {
-  // 引用然后注册
-  components: {
-    // 'layout-aside': layoutAside,
-    // 'layout-header': layoutHeader
+  data () {
+    return {
+      collapse: false // 默认是展开
+    }
+  },
+  created () {
+    eventBus.$on('changeCollapse', () => {
+      // 头部组件告诉折叠相关的所有组件 要改变了
+      this.collapse = !this.collapse
+    })
   }
+
 }
 </script>
 

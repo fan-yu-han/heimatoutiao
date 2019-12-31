@@ -31,7 +31,7 @@
            <el-tab-pane label="收藏图片" name="collect">
                <div class="img-list">
               <!-- v-for 对数据进行遍历 -->
-              <el-card class="img-card" v-for="item in list" :key='item.id'>
+              <el-card class="img-card" v-for="(item,index) in list" :key='item.id'>
                   <img @click="openDialog(index)" :src="item.url" alt="">
 
               </el-card>
